@@ -1,16 +1,36 @@
 name: 'EDW_data_pipeline'
 version: '1.0.0'
-config-version: 2
 
-profile: 'edw_snowflake_profile'
+profile: 'EDW_data_pipeline'
 
-source-paths: ["models"]
-analysis-paths: []
+model-paths: ["models"]
+analysis-paths: ["analyses"]
 test-paths: ["tests"]
-data-paths: []
+seed-paths: ["seeds"]
 macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
 
-target-path: "target"
 clean-targets:
   - "target"
-  - "dbt_modules"
+  - "dbt_packages"
+
+models:
+  EDW_data_pipeline:
+    staging:
+      +schema: staging
+      +materialized: table
+      +warehouse: dbt_wh
+
+    edw:
+      +schema: edw
+      +materialized: table
+      +warehouse: dbt_wh
+
+# Add this override:
+dispatch:
+  - macro_namespace: dbt
+    search_order: ['EDW_data_pipeline', 'dbt']
+
+# Prevent schema concatenation
+quoting:
+  schema: false

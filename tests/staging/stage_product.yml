@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stage_product
+    description: Validates staging product data.
+    columns:
+      - name: ProductID
+        tests:
+          - not_null
+          - unique
+      - name: Price
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0.01
+      - name: Discount
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1

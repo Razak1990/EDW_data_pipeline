@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: stage_customer
+    description: Validates staging customer data.
+    columns:
+      - name: CustomerID
+        tests:
+          - not_null
+          - unique
+      - name: Firstname
+        tests:
+          - not_null
+      - name: Lastname
+        tests:
+          - not_null
+      - name: Birthdate
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: "'1900-01-01'"
+              max_value: "current_date"

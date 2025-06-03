@@ -1,0 +1,201 @@
+version: 2
+
+sources:
+  - name: staging
+    schema: staging
+    tables:
+      - name: order_landing
+        description: Landing table for incoming order data.
+        columns:
+          - name: OrderID
+            description: Unique ID for each order.
+            tests:
+              - not_null
+              - unique
+          - name: CustomerID
+            description: Foreign key to customer.
+            tests:
+              - not_null
+          - name: ProductID
+            description: Foreign key to product.
+            tests:
+              - not_null
+          - name: OrderDate
+            description: Date when the order was placed.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: "'1990-01-01'"
+                  max_value: "current_date"
+          - name: Quantity
+            description: Quantity of product ordered.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0.01
+
+      - name: stage_order
+        description: Staging table for processed order data with SCD1 logic.
+        columns:
+          - name: OrderID
+            description: Unique ID for each order.
+            tests:
+              - not_null
+              - unique
+          - name: CustomerID
+            description: Foreign key to customer.
+            tests:
+              - not_null
+          - name: ProductID
+            description: Foreign key to product.
+            tests:
+              - not_null
+          - name: OrderDate
+            description: Date when the order was placed.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: "'1990-01-01'"
+                  max_value: "current_date"
+          - name: Quantity
+            description: Quantity of product ordered.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0.01
+          - name: CreatedDate
+            description: record created date.
+            tests:
+              - not_null
+          - name: lastmodefieddate
+            description: record last modefied date.
+            tests:
+              - not_null
+      - name: customer_landing
+        description: Landing table for incoming customer data.
+        columns:
+          - name: CustomerID
+            description: Unique ID for each customer.
+            tests:
+              - not_null
+              - unique
+          - name: Firstname
+            description: Customer's first name.
+            tests:
+              - not_null
+          - name: Lastname
+            description: Customer's last name.
+            tests:
+              - not_null
+          - name: Birthdate
+            description: Date of birth.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: "'1900-01-01'"
+                  max_value: "current_date"
+          - name: City
+            description: City of residence.
+            tests:
+              - not_null
+
+      - name: stage_customer
+        description: Staging table for processed customer data.
+        columns:
+          - name: CustomerID
+            description: Unique ID for each customer.
+            tests:
+              - not_null
+              - unique
+          - name: Firstname
+            description: Customer's first name.
+            tests:
+              - not_null
+          - name: Lastname
+            description: Customer's last name.
+            tests:
+              - not_null
+          - name: Birthdate
+            description: Date of birth.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: "'1900-01-01'"
+                  max_value: "current_date"
+          - name: City
+            description: City of residence.
+            tests:
+              - not_null
+          - name: CreatedDate
+            description: record created date.
+            tests:
+              - not_null
+          - name: lastmodefieddate
+            description: record last modefied date.
+            tests:
+              - not_null
+      - name: product_landing
+        description: Landing table for incoming product data.
+        columns:
+          - name: ProductID
+            description: Unique ID for each product.
+            tests:
+              - not_null
+              - unique
+          - name: Description
+            description: Description of the product.
+            tests:
+              - not_null
+          - name: Code
+            description: Product code.
+            tests:
+              - not_null
+          - name: Price
+            description: Price of the product.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0.00
+          - name: Discount
+            description: Discount applied to the product.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0.00
+
+      - name: stage_product
+        description: Staging table for processed product data.
+        columns:
+          - name: ProductID
+            description: Unique ID for each product.
+            tests:
+              - not_null
+              - unique
+          - name: Description
+            description: Description of the product.
+            tests:
+              - not_null
+          - name: Code
+            description: Product code.
+            tests:
+              - not_null
+          - name: Price
+            description: Price of the product.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0.00
+          - name: Discount
+            description: Discount applied to the product.
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0.00
+          - name: CreatedDate
+            description: record created date.
+            tests:
+              - not_null
+          - name: lastmodefieddate
+            description: record last modefied date.
+            tests:
+              - not_null

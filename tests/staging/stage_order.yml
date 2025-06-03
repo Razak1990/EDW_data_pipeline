@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: stage_order
+    description: Validates staging order data.
+    columns:
+      - name: OrderID
+        tests:
+          - not_null
+          - unique
+      - name: CustomerID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stage_customer')
+              field: CustomerID
+      - name: ProductID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stage_product')
+              field: ProductID
+      - name: OrderDate
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: "'2010-01-01'"
+              max_value: "current_date"
+      - name: Quantity
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0.01
