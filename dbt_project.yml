@@ -1,0 +1,16 @@
+name: 'EDW_data_pipeline'
+version: '1.0.0'
+config-version: 2
+
+profile: 'edw_snowflake_profile'
+
+source-paths: ["models"]
+analysis-paths: []
+test-paths: ["tests"]
+data-paths: []
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_modules"
