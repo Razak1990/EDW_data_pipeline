@@ -19,3 +19,4 @@
 ) }}
 
 SELECT 'Triggered COPY INTO hooks' AS message
+
